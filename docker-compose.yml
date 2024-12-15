@@ -1,0 +1,8 @@
+services:
+  db:
+    image: postgres:16.4-bookworm
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cocktailBookDataBase
+    ports:
+      - "5432:5432"

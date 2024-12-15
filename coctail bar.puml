@@ -1,0 +1,45 @@
+@startuml
+entity "User" as 01{
+*e1_id : number Long
+--
+*user_name : String
+*password : hash
+}
+entity "Ingredient" as 02 {
+*e2_id : number Long
+--
+*name : String
+*description(optional) : String
+*photo,link(optional) : String
+*category : String
+}
+entity "Cocktail" as 03 {
+*e3_id : number Long
+--
+*name : String
+*description : String (<255 symbol)
+*recipe : String (<2000 symbol)
+*ingredient_list : String
+*evaluation : String
+*view count : int
+*tags : many to many
+}
+entity "Tag" as 04{
+*e4_id : number Long
+--
+*name : String
+}
+entity "Rating" as 05{
+*user_id : number Long
+*coctail_id : number Long
+--
+* rating : int
+}
+01 ||..o{ 03
+01 ||..o{ 05
+03 }|..o| 05
+03 ||..|{ 02
+03 ||..o{ 04
+
+
+@enduml

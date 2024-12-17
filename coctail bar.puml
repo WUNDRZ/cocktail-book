@@ -1,45 +1,54 @@
 @startuml
-entity "User" as 01{
-*e1_id : number Long
---
-*user_name : String
-*password : hash
+    entity users{
+        *id :  BIGINT
+        --
+        *user_name : varchar(50)
+        *password : varchar(255)
 }
-entity "Ingredient" as 02 {
-*e2_id : number Long
---
-*name : String
-*description(optional) : String
-*photo,link(optional) : String
-*category : String
+
+    entity ingredients{
+        *id :  BIGINT
+        --
+        *name : varchar(50)
+        *description : link,photo
+        *category : varchar(200)
 }
-entity "Cocktail" as 03 {
-*e3_id : number Long
---
-*name : String
-*description : String (<255 symbol)
-*recipe : String (<2000 symbol)
-*ingredient_list : String
-*evaluation : String
-*view count : int
-*tags : many to many
+
+    entity cocktails {
+        *id :  BIGINT
+        --
+        *name : varchar(50)
+        *description : varchar(255)
+        *recipe : varchar(2000)
+        *ingredient_list : varchar(500)
+        *evaluation : varchar(255)
+        *view count : int
 }
-entity "Tag" as 04{
-*e4_id : number Long
---
-*name : String
+
+    entity tags {
+        *id :  BIGINT
+        --
+        *name : varchar(50)
 }
-entity "Rating" as 05{
-*user_id : number Long
-*coctail_id : number Long
---
-* rating : int
+
+    entity rating{
+        *user_id :  BIGINT
+        *coctail_id :  BIGINT
+        --
+        * rating : int
 }
-01 ||..o{ 03
-01 ||..o{ 05
-03 }|..o| 05
-03 ||..|{ 02
-03 ||..o{ 04
+
+    entity coctails_tags {
+        *coctail_id : BIGINT
+        *tags_id : BIGINT
+    }
+
+    users ||..o{ cocktails
+    users ||..o{ rating
+    cocktails }|..o| rating
+    cocktails ||..|{ ingredients
+    coctails_tags }|..o| cocktails
+    coctails_tags }|..o| tags
 
 
 @enduml

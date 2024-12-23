@@ -2,7 +2,7 @@
     entity users{
         *id :  BIGINT
         --
-        *user_name : varchar(50)
+        *username : varchar(50)
         *password : varchar(255)
 }
 
@@ -10,8 +10,9 @@
         *id :  BIGINT
         --
         *name : varchar(50)
-        *description : link,photo
-        *category : varchar(200)
+        description : varchar(2048)
+        linkv : varchar(2048)
+        photo : varchar(2048)
 }
 
     entity cocktails {
@@ -20,8 +21,9 @@
         *name : varchar(50)
         *description : varchar(255)
         *recipe : varchar(2000)
-        *ingredient_list : varchar(500)
-        *evaluation : varchar(255)
+        *ingredient_list : List<ingredient_id>
+        *owner : user_id
+        *calculated_rating : DECIMAL(4,2)
         *view count : int
 }
 
@@ -33,22 +35,28 @@
 
     entity rating{
         *user_id :  BIGINT
-        *coctail_id :  BIGINT
+        *cocktail_id :  BIGINT
         --
         * rating : int
 }
 
-    entity coctails_tags {
+    entity cocktails_tags {
         *coctail_id : BIGINT
         *tags_id : BIGINT
     }
 
+    entity category {
+    *id : BIGINT
+    *name : varchar(255)
+    }
+
     users ||..o{ cocktails
     users ||..o{ rating
-    cocktails }|..o| rating
+    cocktails ||..o{ rating
     cocktails ||..|{ ingredients
-    coctails_tags }|..o| cocktails
-    coctails_tags }|..o| tags
+    cocktails_tags }|..o| cocktails
+    cocktails_tags }|..o| tags
+    ingredients ||..|{ category
 
 
 @enduml

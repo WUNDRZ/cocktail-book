@@ -1,6 +1,5 @@
 package org.avasylchuk.cocktailbook;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class UserService {
 
     public String registerUser(RegisterRequestDto requestDto) {
         if (userRepository.existsByUsername(requestDto.getUsername())) {
-            throw new CustomException("Username already exists");
+            throw new CocktailbookException("Username already exists");
         }
         UserEntity user = new UserEntity();
         user.setUsername(requestDto.getUsername());
@@ -27,9 +26,9 @@ public class UserService {
 
     public String authenticateAndGenerateToken(LoginRequestDto requestDto) {
         UserEntity user = userRepository.findByUsername(requestDto.getUsername())
-                .orElseThrow(() -> new CustomException("Invalid credentials"));
+                .orElseThrow(() -> new CocktailbookException("Invalid credentials"));
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new CustomException("Invalid credentials");
+            throw new CocktailbookException("Invalid credentials");
         }
         return jwtUtils.generateToken(user);
     }

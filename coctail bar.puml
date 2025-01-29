@@ -11,8 +11,8 @@
         --
         *name : varchar(50)
         description : varchar(2048)
-        linkv : varchar(2048)
         photo : varchar(2048)
+        *category_id : BIGINT
 }
 
     entity cocktails {
@@ -25,6 +25,11 @@
         *owner : user_id
         *calculated_rating : DECIMAL(4,2)
         *view count : int
+}
+
+    entity cocktails_ingredients{
+        cocktail_id : BIGINT
+        ingredient_id : BIGINT
 }
 
     entity tags {
@@ -53,10 +58,12 @@
     users ||..o{ cocktails
     users ||..o{ rating
     cocktails ||..o{ rating
-    cocktails ||..|{ ingredients
+    ingredients ||..|{ category
     cocktails_tags }|..o| cocktails
     cocktails_tags }|..o| tags
-    ingredients ||..|{ category
+    cocktails_ingredients }|..|| cocktails
+    cocktails_ingredients }|..o| ingredients
+
 
 
 @enduml

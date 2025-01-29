@@ -1,4 +1,4 @@
-name: Deploy backend to AWS
+name: Build and test
 on:
   pull_request:
     branches: [ "main" ]
